@@ -1,0 +1,5 @@
+2015-07-24 00:38:06.935
+System.ArgumentNullException: 值不能为 null。
+参数名: source
+   在 System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   在 WitBird.XiaoChangHe.Controllers.NewOrderController.Detail(String id, String name, String orderId) 位置 d:\GitHub\XiaoChangeHe\Controllers\NewOrderController.cs:行号 30

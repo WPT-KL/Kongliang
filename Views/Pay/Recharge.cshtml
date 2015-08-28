@@ -1,0 +1,188 @@
+﻿@{
+    Layout = null;
+}
+@model WitBird.XiaoChangHe.Models.Info.CrmMember
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>会员充值中心</title>
+    <link href="/newcontent/style/cz.css" rel="stylesheet" type="text/css">
+    <script src="~/NewContent/js/jquery.js"></script>
+    <script src="~/NewContent/js/cz.js"></script>
+    <script language="javascript" src="http://res.mail.qq.com/mmr/static/lib/js/lazyloadv3.js" type="text/javascript"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <style>
+        input, select { font-size: 1.2em; color: #333; outline: none; border: none; padding: 0; }
+        .loading { text-align: center; background-color: burlywood; bottom: 0; position: fixed; width: 100%; }
+    </style>
+    <script language="javascript" type="text/javascript">
+        function auto_remove(img) {
+            div = img.parentNode.parentNode; div.parentNode.removeChild(div);
+            img.onerror = "";
+            return true;
+        }
+
+        function changefont(fontsize) {
+            if (fontsize < 1 || fontsize > 4) return;
+            $('#content').removeClass().addClass('fontSize' + fontsize);
+        }
+
+        // 当微信内置浏览器完成内部初始化后会触发WeixinJSBridgeReady事件。
+        @*document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+            //公众号支付
+            jQuery('a#getBrandWCPayRequest').click(function (e) {
+                WeixinJSBridge.invoke('getBrandWCPayRequest', {
+                    "appId": "@ViewData["appId"]", //公众号名称，由商户传入
+                    "timeStamp": "@ViewData["timeStamp"]", //时间戳
+                    "nonceStr": "@ViewData["nonceStr"]", //随机串
+                    "package": "@Html.Raw(ViewData["package"])",//扩展包
+                    "signType": "MD5", //微信签名方式:MD5
+                    "paySign": "@ViewData["paySign"]" //微信签名
+                }, function (res) {
+
+                    if (res.err_msg == "get_brand_wcpay_request:ok") {
+                    }
+                    // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+                    //因此微信团队建议，当收到ok返回时，向商户后台询问是否收到交易成功的通知，若收到通知，前端展示交易成功的界面；若此时未收到通知，商户后台主动调用查询订单接口，查询订单的当前状态，并反馈给前端展示相应的界面。
+                });
+
+            });
+
+            WeixinJSBridge.log('yo~ ready.');
+
+        }, false);*@
+
+        function callPayApi(a, t, n, p, ps) {
+            WeixinJSBridge.invoke('getBrandWCPayRequest', {
+                "appId": a,
+                "timeStamp": t,
+                "nonceStr": n,
+                "package": p,
+                "signType": "MD5",
+                "paySign": ps
+            }, function (res) {
+                if (res.err_msg == "get_brand_wcpay_request:ok") {
+                    window.location = "/member/info?id=@(ViewBag.CompanyId)&name=@(ViewBag.SourceAccountId)";
+                }
+                else {
+                    window.location = "/pay/prerecharge?id=@(ViewBag.CompanyId)&name=@(ViewBag.SourceAccountId)";
+                }
+            });
+        }
+
+        //string code, string uid, string name, string tel, string amount, bool isFirstRecharge
+        function postBillInfo() {
+            var name = $('#name').val();
+            var tel = $('#tel').val();
+
+            if (!(IsEmpty("姓名", name) || IsEmpty("电话", tel)) && IsPhoneValid(tel)) {
+                var loading = document.createElement("div");
+                $(loading).addClass("loading");
+                loading.innerHTML = "正在发起支付请求，请稍后...";
+                document.body.appendChild(loading);
+                $.post("/pay/recharge",
+                    { Code: '@ViewBag.Code', uid: '@ViewBag.Uid', name: name, tel: tel, amount: $('#amount').val(), isFirstRecharge: '@ViewBag.IsFirstRecharge' },
+                    function (data) {
+                        $(loading).remove();
+                        if (data.IsSuccess) {
+                            callPayApi(data.appId, data.timeStamp, data.nonceStr, data.package, data.paySign);
+                        }
+                        else {
+                            alert(data.Message);
+                            window.location = "/pay/prerecharge?id=@(ViewBag.CompanyId)&name=@(ViewBag.SourceAccountId)";
+                        }
+                    });
+            }
+        }
+
+        function IsEmpty(name, value) {
+            if (value == '' || value == 'undefined' || value == 'NaN') {
+                alert(name + '不能为空。');
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        function IsPhoneValid(value) {
+            var length = value.length;
+            var mobile = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+            var isValid = (length == 11 && mobile.test(value));
+
+            if (!isValid) {
+                alert('手机号码输入有误');
+            }
+
+            return isValid;
+        }
+
+    </script>
+
+</head>
+<body>
+    <div class="container">
+        @if (Model != null)
+        {
+            <form id="rechageForm" action="/pay/rechage" method="post">
+                <input type="hidden" value="@Model.Uid" name="uid" />
+                <div class="content1">&nbsp;&nbsp;会员号 <span>NO.@Model.Uid</span></div>
+                <div class="content1">
+                    &nbsp;&nbsp;姓名 <span>
+                        <input id="name" type="text" name="name" value="@Model.MemberName" placeholder="请输入真实姓名" />
+                        >
+                    </span>
+                </div>
+                <div class="content1">
+                    &nbsp;&nbsp;电话 <span>
+                        <input id="tel" type="text" name="tel" value="@Model.Tel" placeholder="请输入联系电话" />
+                        >
+                    </span>
+                </div>
+                <div class="content1" style="position: relative;">
+                    &nbsp;&nbsp;选择充值金额 <span class="sc">首冲1000元起 　></span>
+                    <select id="amount" name="amount" class="sel">
+                        @if (ViewBag.IsFirstRecharge)
+                        {
+                            <option value="1000">1000元</option>
+                        }
+                        else
+                        {
+                            <option value="500">500元</option>
+                            <option value="1000">1000元</option>
+                        }
+                    </select>
+                </div>
+                <div class="content">
+                    1、  充值1000再送300，续充500再送100。<br />
+                    2、 部分菜品享受会员折扣价且优惠可与特价菜同享<br />
+                    3、 普洱茶免费。<br />
+                    <br />
+
+
+                    免责声明：<br />
+                    1、在该"服务号"的系统发生故障影响到所提供服务的正常运行时，"成都映象小场合餐饮有限公司"承诺在第一时间内配合处理事故。但用户由此产生的经济损失，本公司不承担责任。
+                    <br />
+                    <br />
+                    2、有关该"服务号"在使用过程中的最终解释权归"成都映象小场合餐饮有限公司"所有。<br />
+                </div>
+                <div class="footer">
+                    <a id="getBrandWCPayRequest" href="javascript:postBillInfo();" onclick="" style="text-decoration:none;outline:none;">
+                        <div class="footer-submit">
+                            确认充值
+                            @*<button type="submit" value="确认充值" style="border:none;background:none;color:#fff;height:30px;line-height:30px;width:90px;font-family:'微软雅黑';">确认充值</button>*@
+                        </div>
+                    </a>
+                </div>
+            </form>
+        }
+        else
+        {
+            <span>非法请求或连接超时，请回到公众号重新发起链接请求</span>
+        }
+    </div>
+</body>
+</html>
