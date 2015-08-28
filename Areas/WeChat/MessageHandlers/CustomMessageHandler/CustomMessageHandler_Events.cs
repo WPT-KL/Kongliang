@@ -20,16 +20,16 @@ namespace WitBird.XiaoChangHe.Areas.WeChat.MessageHandlers.CustomMessageHandler
     /// </summary>
     public partial class CustomMessageHandler
     {
-        protected const string ImgUrl = "http://115.29.38.163/images/";
+        protected const string ImgUrl = "http://120.26.50.50/images/";
 
         private Article GetWelcomeInfo()
         {
             return new Article()
             {
-                Title = "成都映象小场合以经营地道川菜、干锅、小吃为主要特色。",
-                Description = "小场合以经营地道川菜、干锅、小吃为主要特色，在这里您可以找到儿时的回忆，在这里您可以找到妈妈饭菜的味道！",
-                PicUrl = "http://115.29.38.163/Images/xchlogo.jpg",
-                Url = "http://mp.weixin.qq.com/s?__biz=MjM5MjIzMDIzMQ==&mid=200696040&idx=1&sn=13ba2109e4bf2ff3ee019ee086c3ce47#rd"
+                Title = "储值送不停！敢充就敢送！！",
+                Description = "现加入“孔亮火锅”的微会员完成会员储值即可享受充值赠值活动",
+                PicUrl = "http://120.26.50.50/Images/member.JPG",
+                Url = "http://mp.weixin.qq.com/s?__biz=MzA3MDkxODMzMQ==&mid=207396239&idx=1&sn=3b8855bbf72e96cf3ddb56ebbcd2c98d&scene=0#rd"
             };
         }
 

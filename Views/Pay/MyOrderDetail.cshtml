@@ -178,7 +178,7 @@
                 <div class="footer">
                     @if (PrepayAccount == 0)
                     {
-                        <div class="zhe"><span style="opacity: 1;">如升级为储值微会员，当前可优惠@(totalprice - viptotalprice)元且可享受 ( 充1000再送300 ) 的优惠！</span></div>
+                        @*<div class="zhe"><span style="opacity: 1;">如升级为储值微会员，当前可优惠@(totalprice - viptotalprice)元且可享受 ( 充1000再送300 ) 的优惠！</span></div>*@
                     }
                     <!-- 合计价格-->
                     <span class="heji">合计：@totalprice ¥</span>
@@ -190,7 +190,7 @@
             <div class="mask"></div>
         </form>
         <div class="popWindow hide">
-            @if (PrepayAccount > 0)
+            @*@if (PrepayAccount > 0)
             {
                 <style>
                     .yfje { line-height: 30px; }
@@ -201,7 +201,8 @@
             else
             {
                 <div class="dqye">原价:<span class="zong">￥ @totalprice</span></div>
-            }
+            }*@
+            <div class="dqye">总金额:<span class="zong">￥ @totalprice</span></div>
             <div class="yfje">
                 账户余额：<span class="yue">￥ @TotalAmount</span>
                 @if ((PrepayAccount > 0 && (viptotalprice - TotalAmount) > 0) ||
@@ -224,7 +225,7 @@
                     {
                         <div class="yfje">微信支付金额：<span class="weixin">￥ @(totalprice - TotalAmount)</span></div>
                     }
-                    <span class="sm">如升级为储值会员，当前可优惠<span>￥ @(totalprice - viptotalprice)</span>并可享受充<span>1000</span>送<span>300</span>的优惠。</span>
+                    @*<span class="sm">如升级为储值会员，当前可优惠<span>￥ @(totalprice - viptotalprice)</span>并可享受充<span>1000</span>送<span>300</span>的优惠。</span>*@
                 }
             }
             <div style="clear: both;"></div>

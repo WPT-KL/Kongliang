@@ -143,23 +143,24 @@
                     </span>
                 </div>
                 <div class="content1" style="position: relative;">
-                    &nbsp;&nbsp;选择充值金额 <span class="sc">首冲1000元起 　></span>
+                    &nbsp;&nbsp;选择充值金额 <span class="sc">1000元 　></span>
                     <select id="amount" name="amount" class="sel">
-                        @if (ViewBag.IsFirstRecharge)
+                        @*@if (ViewBag.IsFirstRecharge)
                         {
                             <option value="1000">1000元</option>
                         }
-                        else
-                        {
-                            <option value="500">500元</option>
-                            <option value="1000">1000元</option>
-                        }
+                        else*@
+                        //{
+                            <option value="1000" selected="selected">1000元 　></option>
+                            <option value="3000">3000元 　></option>
+                        <option value="5000">5000元 　></option>
+                        //}
                     </select>
                 </div>
                 <div class="content">
-                    1、  充值1000再送300，续充500再送100。<br />
-                    2、 部分菜品享受会员折扣价且优惠可与特价菜同享<br />
-                    3、 普洱茶免费。<br />
+                    1、 充1000送200；充3000送900；充5000送1800。<br />
+                    2、	在该“服务号”的系统发生故障影响到所提供服务的正常运行时，“太原市重庆孔亮火锅餐饮有限公司”承诺在第一时间内配合处理事故。但用户由此产生的经济损失，本公司不承担责任。<br />
+                    3、	有关该“服务号”在使用过程中的最终解释权归“太原市重庆孔亮火锅餐饮有限公司”所有。<br />
                     <br />
 
 

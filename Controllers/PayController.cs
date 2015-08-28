@@ -150,12 +150,7 @@ namespace WitBird.XiaoChangHe.Controllers
                     throw new ArgumentException("充值金额错误，" + amount);
                 }
 
-                if (isFirstRecharge && totalPrice != 1000)
-                {
-                    throw new ArgumentException("充值金额错误，" + amount);
-                }
-
-                if (!isFirstRecharge && totalPrice != 500 && totalPrice != 1000)
+                if (totalPrice != 1000 && totalPrice != 3000 && totalPrice != 5000)
                 {
                     throw new ArgumentException("充值金额错误，" + amount);
                 }
@@ -163,13 +158,21 @@ namespace WitBird.XiaoChangHe.Controllers
                 //强制设置为配置的值。
                 //totalPrice = 0.01m;
 
-                if (isFirstRecharge)
+                if (totalPrice == 1000)
                 {
-                    presentMoney = 300;
+                    presentMoney = 200;
+                }
+                else if (totalPrice == 3000)
+                {
+                    presentMoney = 900;
+                }
+                else if (totalPrice == 5000)
+                {
+                    presentMoney = 1800;
                 }
                 else
                 {
-                    presentMoney = (totalPrice / 500) * 100;
+                    // NOTHING TO DO
                 }
 
                 prepayRecord = new PrepayRecord();
@@ -579,7 +582,7 @@ namespace WitBird.XiaoChangHe.Controllers
                 {
                     var allTodaySpecials = SpecialsModel.GetTodayByRestaurantId(order.RstId);
                     decimal totalPrice = 0;
-                    decimal totalVipPrice = 0;
+                    //decimal totalVipPrice = 0;
 
                     if (orderDetails != null && orderDetails.Count > 0)
                     {
@@ -589,12 +592,12 @@ namespace WitBird.XiaoChangHe.Controllers
                             {
                                 var special = allTodaySpecials.Where(x => x.ProductId == orderDetails[i].proId).First();
                                 totalPrice += special.SpecPrice.Value * orderDetails[i].ProductCount;
-                                totalVipPrice += special.SpecPrice.Value * orderDetails[i].ProductCount;
+                                //totalVipPrice += special.SpecPrice.Value * orderDetails[i].ProductCount;
                             }
                             else
                             {
                                 totalPrice += orderDetails[i].UnitPrice * orderDetails[i].ProductCount;
-                                totalVipPrice += orderDetails[i].MemberPrice * orderDetails[i].ProductCount;
+                                //totalVipPrice += orderDetails[i].MemberPrice * orderDetails[i].ProductCount;
                             }
                         }
                     }
@@ -605,10 +608,10 @@ namespace WitBird.XiaoChangHe.Controllers
                     string openid = "";
 
                     //会员价
-                    if (prepayAccount.AccountMoney > 0)
-                    {
-                        totalPrice = totalVipPrice;
-                    }
+                    //if (prepayAccount.AccountMoney > 0)
+                    //{
+                    //    totalPrice = totalVipPrice;
+                    //}
 
                     if ((prepayAccount.AccountMoney + prepayAccount.PresentMoney) >= totalPrice)
                     {
