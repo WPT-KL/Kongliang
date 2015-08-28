@@ -1,0 +1,51 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>验证通过</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="yes" name="apple-touch-fullscreen" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta content="email=no" name="format-detection" />
+    <meta content="black" name="apple-mobile-web-app-staimagess-bar-style">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="wap-font-scale" content="no" />
+    <!--引入css-->
+    <link href="/NewUI/style/tg.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="container">
+        <!--   验证通过提示语-->
+        <div class="content">
+            恭喜你，你已通过小场合的邀请码（<span class="num">@ViewBag.VerifyCode</span>）成功加入小场合.微观时代线上VIP!<br />
+            <br /><span class="content-center"> (把惊喜传递给更多小伙伴吧^_^)</span>
+        </div>
+    </div>
+    <div class="fenx" onclick="showTip()">立即分享</div>
+    <div id="tip" style="width:100%;height:100%;position:absolute;background:#333;top:0;left:0;display:none">
+        <div style="margin:20px;border-radius:5px;background:#fff;padding:10px;">
+            <div>温馨提示</div>
+            <div style="line-height:30px;">■ 点击右上角→“查看公众号”免费关注</div>
+            <div style="line-height:30px;">■ 点击右上角→分享到朋友圈</div>
+            <div style="line-height:30px;">■ 您可以截图分享该邀请码让更多小伙伴享受该优惠</div>
+            <div id="closeTip" style="margin:10px;text-align:center" onclick="closeTip()">关闭</div>
+        </div>
+    </div>
+    <script src="~/NewContent/js/jquery.js"></script>
+    <script type="text/javascript">
+        function showTip() {
+            $('#tip').show();
+        }
+        function closeTip() {
+            $('#tip').hide();
+        }
+    </script>
+</body>
+</html>

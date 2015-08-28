@@ -1,0 +1,8 @@
+D:\GitHub\XiaoChangeHe\WitBird.XiaoChangeHe.Core\bin\Release\WitBird.XiaoChangeHe.Core.dll
+D:\GitHub\XiaoChangeHe\WitBird.XiaoChangeHe.Core\bin\Release\WitBird.XiaoChangeHe.Core.pdb
+D:\GitHub\XiaoChangeHe\WitBird.XiaoChangeHe.Core\obj\Release\WitBird.XiaoChangeHe.Core.dll
+D:\GitHub\XiaoChangeHe\WitBird.XiaoChangeHe.Core\obj\Release\WitBird.XiaoChangeHe.Core.pdb
+D:\GitHub\Kongliang\WitBird.XiaoChangeHe.Core\bin\Release\WitBird.XiaoChangeHe.Core.dll
+D:\GitHub\Kongliang\WitBird.XiaoChangeHe.Core\bin\Release\WitBird.XiaoChangeHe.Core.pdb
+D:\GitHub\Kongliang\WitBird.XiaoChangeHe.Core\obj\Release\WitBird.XiaoChangeHe.Core.dll
+D:\GitHub\Kongliang\WitBird.XiaoChangeHe.Core\obj\Release\WitBird.XiaoChangeHe.Core.pdb

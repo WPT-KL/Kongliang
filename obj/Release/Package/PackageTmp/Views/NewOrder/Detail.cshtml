@@ -1,0 +1,140 @@
+﻿@model WitBird.XiaoChangeHe.Core.Entity.OrderDetail
+@{
+    Layout = null;
+}
+@using WitBird.XiaoChangeHe.Core;
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>订单详情</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <link href="~/NewContent/style/index2.css" rel="stylesheet" type="text/css">
+    <link href="~/NewContent/style/ddxq(yfk).css" rel="stylesheet" type="text/css">
+    <script src="~/NewContent/js/jquery.js"></script>
+</head>
+<body>
+    <div class="container">
+
+        <div class="header2">
+            <span class="jine">订单金额：　<span class="money">@Model.TotalMoney.ToString("0.00")元</span></span>
+            @{
+                string orderStatus = "未付款";
+
+                switch (Model.Status)
+                {
+                    case OrderStatus.Cancelled:
+                        orderStatus = "已取消";
+                        break;
+                    case OrderStatus.Complete:
+                        orderStatus = "已完成";
+                        break;
+                    case OrderStatus.Confirmed:
+                        orderStatus = "已出菜";
+                        break;
+                    case OrderStatus.Paid:
+                        orderStatus = "已付款";
+                        break;
+                    case OrderStatus.Refunded:
+                        orderStatus = "已退款";
+                        break;
+                    case OrderStatus.New:
+                    default:
+                        orderStatus = "未付款";
+                        break;
+                }
+                <span class="yifu">
+                    @orderStatus
+                </span>
+            }
+        </div>
+        <div class="info">
+            姓　　名：@Model.ContactName<br />
+            电　　话：@Model.Telephone<br />
+            订单编号：@Model.OrderId<br />
+            备　　注：@string.Format("{0}", string.IsNullOrEmpty(Model.Backlog) ? "无" : Model.Backlog)
+        </div>
+        <div class="san">
+            @if (Model.PersonCount.HasValue)
+            {
+                if (Model.PersonCount.Value < 10)
+                {
+                    <span class="san_l">散桌1-10人桌</span>
+                }
+                else
+                {
+                    <span class="san_l">大于10人桌</span>
+                }
+            }
+            @if (Model.DiningDate != null)
+            {
+                <span class="san_r"> @Model.DiningDate.Value.ToString("yyyy-MM-dd ddd HH:mm")</span>
+            }
+            else
+            {
+                <span class="san_r">未确认</span>
+            }
+
+        </div>
+        <div class="content-header">
+            <span>|</span>  菜品清单
+        </div>
+        @if (Model.ProductList != null && Model.ProductList.Count > 0)
+        {
+            foreach (var product in Model.ProductList)
+            {
+                <div class="content">
+                    <div class="content-img"><img src="/order/GetImages/@product.ProductId" width="100%" height="80"></div>
+                    <div class="content-content">
+                        <span class="s_z">@product.ProductName</span><br />
+                        <span class="x_z">@*@product.UnitPrice.ToString("0.00")*@<span style="font-size:14px"> @*元*@</span></span>
+                        <span class="x_y">@string.Format("x{0}", product.Count)</span>
+                    </div>
+                </div>
+            }
+        }
+        <div class="time">创建时间 @Model.CreateTime.ToString("yyyy-MM-dd hh:m:ss")</div>
+
+        @if (Model.Status == OrderStatus.Paid)
+        {
+            <div class="footer">
+                <div class="footer_r" onclick="RefundOrder()">申请退款</div>
+            </div>
+        }
+    </div>
+    <!--弹出层时背景层DIV-->
+    <div id="fade" class="black_overlay">
+    </div>
+    @*<div id="MyDiv" class="white_content">
+            <div style="  cursor: default; height: 40px;color:#666;">
+
+                订单为已支付状态，若此时修改订单，本次订单将作废，金额会在24小时内退回你的账户余额，点击“确认修改”回到之前点菜状态进行订单修改。
+                <div style="border-top:1px solid #ccc;margin-top:6%;">
+                    <div class="queren" onclick="EditOrder();">确认修改</div>
+                    <div class="quxiao" style="font-size: 16px;" onclick="CloseDiv('MyDiv','fade')">取消</div>
+                </div>
+            </div>
+        </div>*@
+    <script>
+        function RefundOrder() {
+            if (confirm("您确认申请退款吗？退款后，该订单将被取消")) {
+                $.post("/neworder/CancelOrder", {
+                    Uid: '@ViewBag.Uid',
+                    OrderId: '@Model.OrderId',
+                    IsEdit: false
+                }, function (msg) {
+                    if (msg == 'SUCCESS') {
+                        alert("申请退款成功，金额已退至您的余额账户，请在会员信息中查看。");
+                        window.location = window.location;
+                    } else {
+                        alert("申请退款失败");
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
