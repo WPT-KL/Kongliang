@@ -7,3 +7,4 @@ D:\GitHub\Kongliang\WitBird.XiaoChangeHe.Core\bin\Debug\WitBird.XiaoChangeHe.Cor
 D:\GitHub\Kongliang\WitBird.XiaoChangeHe.Core\bin\Debug\WitBird.XiaoChangeHe.Core.pdb
 D:\GitHub\Kongliang\WitBird.XiaoChangeHe.Core\obj\Debug\WitBird.XiaoChangeHe.Core.dll
 D:\GitHub\Kongliang\WitBird.XiaoChangeHe.Core\obj\Debug\WitBird.XiaoChangeHe.Core.pdb
+D:\GitHub\Kongliang\WitBird.XiaoChangeHe.Core\obj\Debug\WitBird.XiaoChangeHe.Core.csprojResolveAssemblyReference.cache
