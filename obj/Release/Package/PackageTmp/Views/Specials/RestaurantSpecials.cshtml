@@ -1,0 +1,78 @@
+﻿@using WitBird.XiaoChangHe.Models.Info
+@using WitBird.XiaoChangHe.Models.Specials
+@model RestaurantSpecialsViewModel
+@{
+    Layout = null;
+    var totalcount = 0;
+    decimal totalprice = new decimal(0);
+}
+<!-- the content start -->
+<li style="display: none;">今日特价</li>
+<ul class="level2" style="display: block; width: 99%;">
+    @if (Model != null)
+    {
+
+        foreach (var item in Model.SpecialsList)
+        {
+            <li>
+                <div class="content2">
+                    <!-- 菜品图片-->
+                    <div class="content_img">
+                        <img src="/Order/GetImages/@(item.ProductId)" imgid="@item.ProductId">
+                    </div>
+                    <!--菜品名称-->
+                    <span class="img_title">@item.Product.ProductName</span>
+                    <!--菜品价格-->
+                    <span class="img_money" id="rmb@(item.ProductId)" data-price="@item.SpecPrice">@(item.SpecPrice)元</span>
+                    <!--加减按钮-->
+                    <div class="content-z-bottom">
+                        @{ bool hadOrder = false; }
+                        @if (ViewBag.MyMenuListData != null)
+                        {
+                            foreach (MyMenu item1 in ViewBag.MyMenuListData as List<MyMenu>)
+                            {
+                                totalcount = totalcount + item1.ProductCount;
+                                totalprice = totalprice + item1.ProductCount * item1.MemberPrice;
+                                if (item.ProductId.Equals(item1.ProductId) && item1.ProductCount > 0)
+                                {
+                                    <div class="right_q">
+                                        <span class="s_left" data-pid="@item.ProductId">-</span>
+                                        <input type="text" id="@item.ProductId" value="@item1.ProductCount" class="text_box" readonly="readonly" style="outline:none;" />
+                                        <span class="s_right" data-pid="@item.ProductId">+</span>
+                                    </div>
+                                    <div class="yuan-bottom" data-pid="@item.ProductId" style="display: none;">
+                                        <img src="~/NewContent/images/yj.png" width="33" height="34">
+                                    </div>
+                                    {
+                                        hadOrder = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        @if (!hadOrder)
+                        {
+                            <div class="right_q" style="display: none;">
+                                <span class="s_left" data-pid="@item.ProductId">-</span>
+                                <input type="text" id="@item.ProductId" value="1" class="text_box" readonly="readonly" style="outline:none;" />
+                                <span class="s_right" data-pid="@item.ProductId">+</span>
+                            </div>
+                            <div class="yuan-bottom" data-pid="@item.ProductId" style="display: block;">
+                                <img src="~/NewContent/images/yj.png" width="33" height="34">
+                            </div>
+                        }
+                    </div>
+                </div>
+            </li>
+        }
+
+        <li style="border-bottom:none;">
+            @*占位符*@
+        </li>
+    }
+</ul>
+<input type="hidden" value="@ViewBag.OrderId" id="OrderId" />
+<input type="hidden" value="@ViewBag.MemberCardNo" id="MemberCardNo" />
+<input type="hidden" value="@totalcount" id="pretotalcount" />
+<input type="hidden" value="@totalprice" id="pretotalprice" />
+<!-- the content end -->
